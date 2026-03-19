@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Lexend", ui-sans-serif, system-ui, sans-serif;
+  --color-primary: #96ff00;
+  --color-background-dark: #121208;
+  --color-surface-dark: #1c1c0f;
+  --color-accent-dark: #2a2a16;
+}
+
+@layer base {
+  body {
+    @apply font-display bg-[#f8f8f5] dark:bg-background-dark text-slate-900 dark:text-slate-100 transition-colors duration-300;
+  }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
