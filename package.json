@@ -1,5 +1,5 @@
 {
-  "homepage": "https://nextlevelsuplementacion.github.io/Catálogo-Web/",
+  "homepage": "https://nextlevelsuplementacion.github.io/Catalogo-Web/",
   "name": "react-example",
   "private": true,
   "version": "0.0.0",
@@ -11,7 +11,7 @@
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",

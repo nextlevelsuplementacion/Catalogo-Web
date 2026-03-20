@@ -34,12 +34,12 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
       return;
     }
 
-    const phoneNumber = '5491122334455'; // Número de ejemplo
+    const phoneNumber = '5493576654177';  //Numero de Tabordixxx
     const itemsList = cart.map(item => 
       `• ${item.name} (x${item.quantity})${item.selectedFlavor ? ` [${item.selectedFlavor}]` : ''} - ${formatCurrency(item.price * item.quantity)}`
     ).join('\n');
 
-    const message = `*NUEVO PEDIDO - SportShop*\n\n` +
+    const message = `*NUEVO PEDIDO - Next Level*\n\n` +
       `*Cliente:* ${name}\n` +
       `*Dirección:* ${address}\n` +
       `*Pago:* ${paymentMethod === 'cash' ? 'Efectivo' : 'Transferencia'}\n\n` +
