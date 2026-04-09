@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Bolt, Search, Moon, Sun, ShoppingCart, Star, LayoutGrid } from 'lucide-react';
+import Imagotipo from '@/src/utils/imagotipo';
 import { useCart } from '../../hooks/useCart';
 
 interface HeaderProps {
@@ -32,10 +33,15 @@ const Header: React.FC<HeaderProps> = ({
             className="flex items-center gap-3 text-slate-900 dark:text-primary cursor-pointer"
             onClick={() => setPage('catalog')}
           >
-            <div className="size-8 bg-primary rounded-full flex items-center justify-center text-black">
-              <Bolt className="size-5 fill-current" />
+            <div className="flex items-center space-x-3">
+              <Imagotipo 
+                className="w-16 h-16" 
+                style={{ fill: isDarkMode ? '#97ff00' : '#000000' }} 
+              />
             </div>
-            <h2 className="text-xl font-black leading-tight tracking-tight uppercase hidden sm:block">Pedix Sports</h2>
+            {/* <h2 className="text-xl font-black leading-tight tracking-tight uppercase hidden sm:block">
+              Next Level
+            </h2> */}
           </div>
           
           <nav className="hidden lg:flex items-center gap-6">

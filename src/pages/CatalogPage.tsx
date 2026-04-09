@@ -80,7 +80,10 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ searchQuery }) => {
               options={brandOptions}
               onChange={(id) => setFilterBrand(id)}
               isOpen={isBrandOpen}
-              setIsOpen={setIsBrandOpen}
+              setIsOpen={(open) => {
+                setIsBrandOpen(open);
+                if (open) setIsSortOpen(false);
+              }}
               icon={<Filter className="size-6" />}
             />
             <Dropdown 
@@ -89,7 +92,10 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ searchQuery }) => {
               options={sortOptions}
               onChange={(id) => setSortBy(id as SortOption)}
               isOpen={isSortOpen}
-              setIsOpen={setIsSortOpen}
+              setIsOpen={(open) => {
+                setIsSortOpen(open);
+                if (open) setIsBrandOpen(false);
+              }}
             />
           </div>
         </div>

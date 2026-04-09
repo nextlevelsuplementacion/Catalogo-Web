@@ -43,9 +43,9 @@ const CartSummary: React.FC<CartSummaryProps> = ({ onCheckout, discount = 0 }) =
         Finalizar Compra
       </Button>
       
-      <p className="text-[10px] font-bold text-slate-400 text-center uppercase tracking-widest">
+      {/* <p className="text-[10px] font-bold text-slate-400 text-center uppercase tracking-widest">
         Envío gratis a todo el país en compras superiores a $20.000
-      </p>
+      </p> */}
     </div>
   );
 };

@@ -110,9 +110,13 @@ export const MOCK_DISCOUNTS: Record<string, number> = {
 
 export const CATEGORIES = [
   { name: 'Todos', icon: 'LayoutGrid' },
-  { name: 'Running', icon: 'Footprints' },
-  { name: 'Entrenamiento', icon: 'Dumbbell' },
-  { name: 'Accesorios', icon: 'Watch' },
-  { name: 'Calzado', icon: 'ShoppingBag' },
-  { name: 'Nutrición', icon: 'Leaf' }
+  { name: 'Creatinas', icon: 'Footprints' },
+  { name: 'Proteinas', icon: 'Dumbbell' },
+  { name: 'Barras Proteicas', icon: 'Watch' },
+  { name: 'Geles', icon: 'ShoppingBag' },
+  { name: 'Quemadores', icon: 'ShoppingBag' },
+  { name: 'Magnesios', icon: 'ShoppingBag' },
+  { name: 'Colágenos', icon: 'ShoppingBag' },
+  { name: 'Pre-Entrenos', icon: 'ShoppingBag' },
+  { name: 'Aminoacidos', icon: 'Leaf' }
 ];

@@ -55,14 +55,14 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedCategory, setSelectedCategory
         </nav>
       </div>
       
-      <div className="bg-primary text-black rounded-2xl p-6 relative overflow-hidden group">
+      {/* <div className="bg-primary text-black rounded-2xl p-6 relative overflow-hidden group">
         <div className="relative z-10">
           <h4 className="text-xl font-black uppercase leading-tight mb-3">¡Descuento Pro!</h4>
           <p className="text-[10px] font-bold opacity-80 mb-4">Usa el código <span className="bg-black text-white px-1.5 py-0.5 rounded">PROELITE</span> para un 25% OFF.</p>
           <button className="bg-black text-white px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-transform">Copiar Código</button>
         </div>
         <div className="absolute -right-10 -bottom-10 size-40 bg-black/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-      </div>
+      </div> */}
     </aside>
   );
 };

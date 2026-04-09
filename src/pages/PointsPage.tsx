@@ -27,7 +27,7 @@ const PointsPage: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
             >
               <h1 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter mb-4 leading-none text-slate-900 dark:text-white">
-                SportPoints - <span className="text-primary">Consulta tus Puntos</span>
+                LevelPoints - <span className="text-primary">Consulta tus Puntos</span>
               </h1>
               <p className="text-slate-500 dark:text-zinc-400 text-lg max-w-xl mb-8">
                 Ingresa tu DNI para ver tus puntos acumulados y canjearlos por descuentos exclusivos.
@@ -146,8 +146,8 @@ const PointsPage: React.FC = () => {
             <div className="hidden md:block h-[1px] flex-grow mx-8 bg-slate-200 dark:bg-zinc-800"></div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Benefit 1 */}
+          {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            Benefit 1
             <div className="bg-slate-50 dark:bg-zinc-900/40 p-8 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-primary/50 transition-colors group">
               <div className="flex justify-between items-start mb-12">
                 <Ticket className="size-8 text-slate-400 dark:text-zinc-600 group-hover:text-primary transition-colors" />
@@ -160,9 +160,9 @@ const PointsPage: React.FC = () => {
               <button className="mt-8 w-full border border-slate-300 dark:border-zinc-700 text-slate-500 dark:text-zinc-400 py-3 rounded-xl font-bold uppercase text-xs hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors">
                 Desbloqueado
               </button>
-            </div>
+            </div> */}
 
-            {/* Benefit 2 */}
+            {/* Benefit 2
             <div className="bg-slate-50 dark:bg-zinc-900/40 p-8 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-primary/50 transition-colors group">
               <div className="flex justify-between items-start mb-12">
                 <Zap className="size-8 text-slate-400 dark:text-zinc-600 group-hover:text-primary transition-colors" />
@@ -175,9 +175,9 @@ const PointsPage: React.FC = () => {
               <button className="mt-8 w-full border border-primary text-primary py-3 rounded-xl font-bold uppercase text-xs hover:bg-primary hover:text-black transition-all">
                 Canjear ahora
               </button>
-            </div>
+            </div> */}
 
-            {/* Benefit 3 */}
+            {/* Benefit 3 
             <div className="bg-slate-100 dark:bg-zinc-950 p-8 rounded-2xl border border-dashed border-slate-300 dark:border-zinc-700 opacity-70">
               <div className="flex justify-between items-start mb-12">
                 <Lock className="size-8 text-slate-300 dark:text-zinc-700" />
@@ -189,11 +189,11 @@ const PointsPage: React.FC = () => {
               </div>
               <p className="mt-8 text-center text-xs text-slate-400 dark:text-zinc-600 font-bold uppercase italic">Faltan 500 pts</p>
             </div>
-          </div>
+          </div> */}
         </section>
 
         {/* Map Section */}
-        <section className="mt-24">
+        {/* <section className="mt-24">
           <div className="relative h-[400px] w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-zinc-800 group">
             <img 
               src="https://picsum.photos/seed/map/1200/600?grayscale" 
@@ -210,7 +210,7 @@ const PointsPage: React.FC = () => {
               </button>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
     </div>
   );
