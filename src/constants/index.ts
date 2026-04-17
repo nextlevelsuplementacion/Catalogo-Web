@@ -110,13 +110,13 @@ export const MOCK_DISCOUNTS: Record<string, number> = {
 
 export const CATEGORIES = [
   { name: 'Todos', icon: 'LayoutGrid' },
-  { name: 'Creatinas', icon: 'Footprints' },
-  { name: 'Proteinas', icon: 'Dumbbell' },
-  { name: 'Barras Proteicas', icon: 'Watch' },
-  { name: 'Geles', icon: 'ShoppingBag' },
-  { name: 'Quemadores', icon: 'ShoppingBag' },
-  { name: 'Magnesios', icon: 'ShoppingBag' },
-  { name: 'Colágenos', icon: 'ShoppingBag' },
-  { name: 'Pre-Entrenos', icon: 'ShoppingBag' },
-  { name: 'Aminoacidos', icon: 'Leaf' }
+  { name: 'Creatinas', icon: 'Zap' },           // energía / fuerza explosiva
+  { name: 'Proteinas', icon: 'Dumbbell' },      // musculación
+  { name: 'Barras Proteicas', icon: 'Cookie' }, // alimento sólido
+  { name: 'Geles', icon: 'Droplet' },           // textura líquida/gel
+  { name: 'Quemadores', icon: 'Flame' },        // quema de grasa
+  { name: 'Magnesios', icon: 'Activity' },      // recuperación muscular
+  { name: 'Colágenos', icon: 'Sparkles' },      // piel/articulaciones
+  { name: 'Pre-Entrenos', icon: 'Bolt' },       // energía previa
+  { name: 'Aminoacidos', icon: 'Atom' }         // estructura química
 ];

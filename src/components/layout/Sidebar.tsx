@@ -1,14 +1,30 @@
 import React, { useState } from 'react';
-import { LayoutGrid, Footprints, Dumbbell, Watch, ShoppingBag, Leaf, ChevronDown } from 'lucide-react';
-import { CATEGORIES } from '../../constants';
+import {
+  LayoutGrid,
+  Zap,
+  Dumbbell,
+  Cookie,
+  Droplet,
+  Flame,
+  Activity,
+  Sparkles,
+  Bolt,
+  Atom,
+  ChevronDown
+} from 'lucide-react';import { CATEGORIES } from '../../constants';
 
 const ICON_MAP: Record<string, any> = {
   LayoutGrid,
-  Footprints,
+  Zap,
   Dumbbell,
-  Watch,
-  ShoppingBag,
-  Leaf
+  Cookie,
+  Droplet,
+  Flame,
+  Activity,
+  Sparkles,
+  Bolt,
+  Atom,
+  ChevronDown
 };
 
 interface SidebarProps {

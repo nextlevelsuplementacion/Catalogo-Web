@@ -81,7 +81,7 @@ const PointsPage: React.FC = () => {
                         Tienes <span className="text-primary">{formatNumber(userPoints)}</span> puntos
                       </h2>
                     </div>
-                    <div className="bg-white dark:bg-zinc-800/50 p-6 rounded-xl border-l-4 border-primary mb-8 shadow-sm">
+                    {/* <div className="bg-white dark:bg-zinc-800/50 p-6 rounded-xl border-l-4 border-primary mb-8 shadow-sm">
                       <p className="text-sm font-bold uppercase tracking-tight text-slate-900 dark:text-white mb-2">¡Casi llegas!</p>
                       <p className="text-slate-500 dark:text-zinc-400 text-sm leading-relaxed">
                         ¡Te faltan {formatNumber(Math.max(0, 2000 - userPoints))} puntos para tu próximo descuento de 25%!
@@ -93,9 +93,9 @@ const PointsPage: React.FC = () => {
                           className="bg-primary h-full shadow-[0_0_8px_#96ff00]"
                         />
                       </div>
-                    </div>
+                    </div> */}
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  {/* <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white dark:bg-zinc-950 p-4 rounded-lg border border-slate-200 dark:border-zinc-800 text-center shadow-sm">
                       <p className="text-xs text-slate-400 dark:text-zinc-500 uppercase font-bold">Nivel</p>
                       <p className="text-lg font-black italic text-slate-900 dark:text-white uppercase">Pro-Elite</p>
@@ -104,7 +104,7 @@ const PointsPage: React.FC = () => {
                       <p className="text-xs text-slate-400 dark:text-zinc-500 uppercase font-bold">Próximo</p>
                       <p className="text-lg font-black italic text-primary uppercase">Platinum</p>
                     </div>
-                  </div>
+                  </div> */}
                 </motion.div>
               ) : dniError ? (
                 <motion.div 

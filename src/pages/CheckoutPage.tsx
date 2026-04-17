@@ -10,6 +10,7 @@ interface CheckoutPageProps {
 
 const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
   const { cart, cartTotal } = useCart();
+  const [dni, setDni] = useState('');
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'transfer'>('cash');
@@ -29,8 +30,8 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
   };
 
   const handleWhatsAppOrder = () => {
-    if (!name || !address) {
-      alert('Por favor, completa tu nombre y dirección.');
+    if (!dni || !name || !address) {
+      alert('Por favor, completa todos los campos.');
       return;
     }
 
@@ -41,6 +42,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
 
     const message = `*NUEVO PEDIDO - Next Level*\n\n` +
       `*Cliente:* ${name}\n` +
+      `*DNI:* ${dni}\n` +
       `*Dirección:* ${address}\n` +
       `*Pago:* ${paymentMethod === 'cash' ? 'Efectivo' : 'Transferencia'}\n\n` +
       `*Detalle del pedido:*\n${itemsList}\n\n` +
@@ -78,6 +80,16 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
                     placeholder="Ej. Juan Pérez"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    className="w-full px-6 py-4 bg-transparent border border-slate-300 dark:border-zinc-700 rounded-full focus:ring-2 focus:ring-primary outline-none transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium ml-1">DNI</label>
+                  <input 
+                    type="text"
+                    placeholder="Ej. 12.345.678"
+                    value={dni}
+                    onChange={(e) => setDni(e.target.value)}
                     className="w-full px-6 py-4 bg-transparent border border-slate-300 dark:border-zinc-700 rounded-full focus:ring-2 focus:ring-primary outline-none transition-all"
                   />
                 </div>
@@ -149,7 +161,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
                   <div className="flex-1 min-w-0">
                     <h4 className="font-medium text-sm line-clamp-1">{item.name}</h4>
                     <p className="text-xs text-slate-500 dark:text-slate-400">
-                      {item.selectedFlavor && `${item.selectedFlavor} • `}Qty: {item.quantity}
+                      {item.selectedFlavor && `${item.selectedFlavor} • `}Cantidad: {item.quantity}
                     </p>
                   </div>
                   <span className="font-semibold text-sm">{formatCurrency(item.price * item.quantity)}</span>
@@ -210,7 +222,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
               </p>
             </div>
 
-            <div className="mt-8 grid grid-cols-2 gap-4 border-t border-primary/10 pt-6">
+            {/* <div className="mt-8 grid grid-cols-2 gap-4 border-t border-primary/10 pt-6">
               <div className="flex items-center gap-2 text-[10px] text-slate-400 font-medium uppercase tracking-tighter">
                 <Lock className="size-3 text-primary" />
                 Datos Encriptados
@@ -219,7 +231,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
                 <Truck className="size-3 text-primary" />
                 Envío Express
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
