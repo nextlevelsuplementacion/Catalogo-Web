@@ -59,13 +59,19 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedCategory, setSelectedCategory
             const Icon = ICON_MAP[cat.icon];
             return (
               <button 
-                key={cat.name}
-                onClick={() => { setSelectedCategory(cat.name); setIsOpen(false); }}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-black transition-all ${selectedCategory === cat.name ? 'bg-primary text-black shadow-lg shadow-primary/20' : 'text-slate-500 hover:bg-primary/10 hover:text-primary'}`}
-              >
-                {Icon && <Icon className="size-4" />}
-                <span className="uppercase tracking-tighter">{cat.name}</span>
-              </button>
+              key={cat.name}
+              onClick={() => { setSelectedCategory(cat.name); setIsOpen(false); }}
+              className={`w-full flex items-start gap-3 px-4 py-3 rounded-xl text-xs font-black text-left leading-tight transition-all ${
+                selectedCategory === cat.name 
+                  ? 'bg-primary text-black shadow-lg shadow-primary/20' 
+                  : 'text-slate-500 hover:bg-primary/10 hover:text-primary'
+              }`}
+            >
+              {Icon && <Icon className="size-4 mt-[2px]" />}
+              <span className="uppercase tracking-tighter break-words">
+                {cat.name}
+              </span>
+            </button>
             );
           })}
         </nav>
