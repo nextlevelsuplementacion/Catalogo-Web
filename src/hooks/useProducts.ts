@@ -1,47 +1,51 @@
 import { useState, useEffect } from 'react';
 import { Product } from '../types/Product';
 
-export const useProducts = (csvUrl: string) => {
+interface Flavor {
+  productId: string;
+  name: string;
+  image: string;
+  stock: number;
+}
+
+export const useProducts = (productsUrl: string, flavorsUrl: string) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Función para parsear campos de CSV que vienen como strings JSON
-  const parseCSVField = (field: string) => {
-  if (!field) return undefined;
-  try {
-    // Quita comillas externas si existen
-    const trimmed = field.trim();
-    const cleaned = trimmed.startsWith('"') && trimmed.endsWith('"')
-      ? trimmed.slice(1, -1)
-      : trimmed;
-    // Reemplaza comillas dobles duplicadas internas
-    const normalized = cleaned.replace(/""/g, '"');
-    return JSON.parse(normalized);
-  } catch (e) {
-    console.warn("No se pudo parsear el campo:", field);
-    return undefined;
-  }
-};
-
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
-        const res = await fetch(csvUrl, { cache: "no-store" }); // NO cache
-        const text = await res.text();
 
-        // Separar filas y saltar encabezado
-        const filas = text.split('\n').slice(1);
+        const [productsRes, flavorsRes] = await Promise.all([
+          fetch(productsUrl),
+          fetch(flavorsUrl)
+        ]);
 
-        const datos: Product[] = filas
-          .filter(f => f.trim())
-          .map(fila => {
-            // Separar respetando comas dentro de comillas
+        const productsText = await productsRes.text();
+        const flavorsText = await flavorsRes.text();
+
+        // --------------------
+        // PARSE PRODUCTS
+        // --------------------
+        const productRows = productsText.split('\n').slice(1);
+
+        const parsedProducts: Product[] = productRows
+          .filter(row => row.trim())
+          .map(row => {
             const [
-              id, name, brand, price, oldPrice, category,
-              image, description, badge, flavors, flavorImages
-            ] = fila.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/);
+              id,
+              name,
+              brand,
+              price,
+              oldPrice,
+              stock,
+              category,
+              image,
+              description,
+              badge
+            ] = row.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/);
 
             return {
               id,
@@ -49,26 +53,59 @@ export const useProducts = (csvUrl: string) => {
               brand,
               price: Number(price),
               oldPrice: oldPrice ? Number(oldPrice) : undefined,
+              stock: stock ? Number(stock) : undefined,
               category,
               image,
               description,
               badge: badge || undefined,
-              flavors: parseCSVField(flavors),
-              flavorImages: parseCSVField(flavorImages),
+              flavors: undefined
             };
           });
 
-        setProducts(datos);
-        setLoading(false);
+        // --------------------
+        // PARSE FLAVORS
+        // --------------------
+        const flavorRows = flavorsText.split('\n').slice(1);
+
+        const parsedFlavors: Flavor[] = flavorRows
+          .filter(row => row.trim())
+          .map(row => {
+            const [productId, name, image, stock] = row.split(',');
+
+            return {
+              productId,
+              name,
+              image,
+              stock: Number(stock)
+            };
+          });
+
+        // --------------------
+        // MERGE PRODUCTS + FLAVORS
+        // --------------------
+        const productsWithFlavors: Product[] = parsedProducts.map(product => {
+          const productFlavors = parsedFlavors.filter(
+            f => f.productId === product.id
+          );
+
+          return {
+            ...product,
+            flavors: productFlavors.length > 0 ? productFlavors : undefined
+          };
+        });
+
+        setProducts(productsWithFlavors);
+        setError(null);
       } catch (err: any) {
-        console.error("Error cargando productos:", err);
-        setError(err.message || "Error desconocido");
+        console.error('Error cargando productos:', err);
+        setError(err.message || 'Error desconocido');
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchProducts();
-  }, [csvUrl]);
+    fetchData();
+  }, [productsUrl, flavorsUrl]);
 
   return { products, loading, error };
 };

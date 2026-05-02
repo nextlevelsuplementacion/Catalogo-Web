@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SearchX } from 'lucide-react';
-import { Product } from '../../constants';
 import ProductCard from './ProductCard';
 
 interface ProductGridProps {

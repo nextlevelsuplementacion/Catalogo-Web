@@ -36,17 +36,23 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
     }
 
     const phoneNumber = '5493576654177';
-    const itemsList = cart.map(item => 
-      `• ${item.name} (x${item.quantity})${item.selectedFlavor ? ` [${item.selectedFlavor}]` : ''} - ${formatCurrency(item.price * item.quantity)}`
+
+    const itemsList = cart.map(item =>
+      `• ${item.name} (x${item.quantity})${
+        item.selectedFlavor ? ` [${item.selectedFlavor.name}]` : ''
+      } - ${formatCurrency(item.price * item.quantity)}`
     ).join('\n');
 
-    const message = `*NUEVO PEDIDO - Next Level*\n\n` +
+    const message =
+      `*NUEVO PEDIDO - Next Level*\n\n` +
       `*Cliente:* ${name}\n` +
       `*DNI:* ${dni}\n` +
       `*Dirección:* ${address}\n` +
       `*Pago:* ${paymentMethod === 'cash' ? 'Efectivo' : 'Transferencia'}\n\n` +
       `*Detalle del pedido:*\n${itemsList}\n\n` +
-      (discount > 0 ? `*Subtotal:* ${formatCurrency(cartTotal)}\n*Descuento:* ${Math.round(discount * 100)}%\n` : '') +
+      (discount > 0
+        ? `*Subtotal:* ${formatCurrency(cartTotal)}\n*Descuento:* ${Math.round(discount * 100)}%\n`
+        : '') +
       `*TOTAL FINAL: ${formatCurrency(finalTotal)}*\n\n` +
       `_Enviado desde la web_`;
 
@@ -77,7 +83,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
                   <label className="text-sm font-medium ml-1">Nombre Completo</label>
                   <input 
                     type="text"
-                    placeholder="Ej. Juan Pérez"
+                    placeholder="Juan Pérez"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full px-6 py-4 bg-transparent border border-slate-300 dark:border-zinc-700 rounded-full focus:ring-2 focus:ring-primary outline-none transition-all"
@@ -87,7 +93,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
                   <label className="text-sm font-medium ml-1">DNI</label>
                   <input 
                     type="text"
-                    placeholder="Ej. 12.345.678"
+                    placeholder="12.345.678"
                     value={dni}
                     onChange={(e) => setDni(e.target.value)}
                     className="w-full px-6 py-4 bg-transparent border border-slate-300 dark:border-zinc-700 rounded-full focus:ring-2 focus:ring-primary outline-none transition-all"
@@ -97,7 +103,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
                   <label className="text-sm font-medium ml-1">Dirección de Entrega</label>
                   <input 
                     type="text"
-                    placeholder="Calle, número, departamento y ciudad"
+                    placeholder="Calle y número"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     className="w-full px-6 py-4 bg-transparent border border-slate-300 dark:border-zinc-700 rounded-full focus:ring-2 focus:ring-primary outline-none transition-all"
@@ -149,24 +155,44 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
             </h2>
 
             <div className="space-y-4 mb-8 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-              {cart.map(item => (
-                <div key={`${item.id}-${item.selectedFlavor}`} className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-lg bg-transparent overflow-hidden flex-shrink-0">
-                    <img 
-                      src={item.flavorImages?.[item.selectedFlavor || ''] || item.image} 
-                      alt={item.name} 
-                      className="w-full h-full object-cover" 
-                    />
+              {cart.map(item => {
+                const flavor = item.selectedFlavor;
+
+                return (
+                  <div
+                    key={`${item.id}-${flavor?.name ?? 'no-flavor'}`}
+                    className="flex items-center gap-4"
+                  >
+                    {/* Imagen */}
+                    <div className="w-16 h-16 rounded-lg bg-transparent overflow-hidden flex-shrink-0">
+                      <img
+                        src={flavor?.image || item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    {/* Info */}
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-sm line-clamp-1">
+                        {item.name}
+                      </h4>
+
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
+                        {flavor?.name
+                          ? `${flavor.name} • `
+                          : ''}
+                        Cantidad: {item.quantity}
+                      </p>
+                    </div>
+
+                    {/* Precio */}
+                    <span className="font-semibold text-sm">
+                      {formatCurrency(item.price * item.quantity)}
+                    </span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm line-clamp-1">{item.name}</h4>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                      {item.selectedFlavor && `${item.selectedFlavor} • `}Cantidad: {item.quantity}
-                    </p>
-                  </div>
-                  <span className="font-semibold text-sm">{formatCurrency(item.price * item.quantity)}</span>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="mb-6 space-y-2">
@@ -193,10 +219,10 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
                 <span>Subtotal</span>
                 <span>{formatCurrency(cartTotal)}</span>
               </div>
-              <div className="flex justify-between text-slate-500 text-sm">
+              {/* <div className="flex justify-between text-slate-500 text-sm">
                 <span>Envío</span>
                 <span className="text-primary font-medium">Gratis</span>
-              </div>
+              </div> */}
               {discount > 0 && (
                 <div className="flex justify-between text-primary text-sm font-medium">
                   <span>Descuento ({Math.round(discount * 100)}%)</span>

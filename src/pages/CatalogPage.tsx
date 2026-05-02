@@ -12,23 +12,16 @@ interface CatalogPageProps {
   searchQuery: string;
 }
 
+const PRODUCTS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUIh24E74W12uWaOLzqbpkRefRsv5b2ePHcIKmlUA-Utp1m7w6vLQ88yTewOX8QM-RRNa66k3UbAJj/pub?gid=1249639291&single=true&output=csv";
+const FLAVORS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUIh24E74W12uWaOLzqbpkRefRsv5b2ePHcIKmlUA-Utp1m7w6vLQ88yTewOX8QM-RRNa66k3UbAJj/pub?gid=1367866808&single=true&output=csv";
+
 const CatalogPage: React.FC<CatalogPageProps> = ({ searchQuery }) => {
   const { products, loading, error } = useProducts(
-    'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUIh24E74W12uWaOLzqbpkRefRsv5b2ePHcIKmlUA-Utp1m7w6vLQ88yTewOX8QM-RRNa66k3UbAJj/pub?gid=0&single=true&output=csv'
+    PRODUCTS_URL,
+    FLAVORS_URL
   );
 
   const [imagesReady, setImagesReady] = useState(false);
-
-  // useEffect(() => {
-  //   const allImages = products.flatMap(p => [
-  //     p.image,
-  //     ...(p.flavorImages ? Object.values(p.flavorImages) : [])
-  //   ]);
-
-  //   preloadImages(allImages).then(() => {
-  //     setImagesReady(true);
-  //   });
-  // }, [products]);
 
   const {
     selectedCategory,
