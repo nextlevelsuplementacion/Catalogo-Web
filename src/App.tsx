@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { CartProvider } from './context/CartContext';
 import Header from './components/layout/Header';
@@ -12,7 +13,8 @@ import { useCart } from './hooks/useCart';
 
 const AppContent: React.FC = () => {
   const { toast, hideToast } = useCart();
-  const [page, setPage] = useState<'catalog' | 'checkout' | 'points'>('catalog');
+  // const [page, setPage] = useState<'catalog' | 'checkout' | 'points'>('catalog');
+  const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -25,24 +27,28 @@ const AppContent: React.FC = () => {
     }
   }, [isDarkMode]);
 
-  const renderPage = () => {
-    switch (page) {
-      case 'catalog':
-        return <CatalogPage searchQuery={searchQuery} />;
-      case 'checkout':
-        return <CheckoutPage setPage={setPage} />;
-      case 'points':
-        return <PointsPage />;
-      default:
-        return <CatalogPage />;
-    }
-  };
+  <Routes>
+    <Route path="/" element={<Navigate to="/catalogo" replace />} />
+
+    <Route
+      path="/catalogo"
+      element={<CatalogPage searchQuery={searchQuery} />}
+    />
+
+    <Route
+      path="/checkout"
+      element={<CheckoutPage />}
+    />
+
+    <Route
+      path="/puntos"
+      element={<PointsPage />}
+    />
+  </Routes>
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a05] text-slate-900 dark:text-slate-100 font-sans selection:bg-primary selection:text-black flex flex-col transition-colors duration-500">
       <Header 
-        page={page}
-        setPage={setPage}
         isDarkMode={isDarkMode}
         setIsDarkMode={setIsDarkMode}
         searchQuery={searchQuery}
@@ -52,15 +58,51 @@ const AppContent: React.FC = () => {
 
       <main className="max-w-[1440px] mx-auto px-6 md:px-10 py-12 flex-1 w-full">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={page}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {renderPage()}
-          </motion.div>
+          <Routes>
+            <Route path="/" element={<Navigate to="/catalogo" replace />} />
+
+            <Route
+              path="/catalogo"
+              element={
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <CatalogPage searchQuery={searchQuery} />
+                </motion.div>
+              }
+            />
+
+            <Route
+              path="/checkout"
+              element={
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <CheckoutPage />
+                </motion.div>
+              }
+            />
+
+            <Route
+              path="/puntos"
+              element={
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <PointsPage />
+                </motion.div>
+              }
+            />
+          </Routes>
         </AnimatePresence>
       </main>
 
@@ -69,7 +111,7 @@ const AppContent: React.FC = () => {
         onClose={() => setIsCartOpen(false)}
         onCheckout={() => {
           setIsCartOpen(false);
-          setPage('checkout');
+          navigate('/checkout');
         }}
       />
 

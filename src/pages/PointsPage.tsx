@@ -9,10 +9,208 @@ const PointsPage: React.FC = () => {
     dniInput,
     setDniInput,
     userPoints,
-    lastCheckedDni,
+    userClaimed,
     dniError,
     checkPoints
   } = usePoints();
+
+  const getUserLevel = (points: number) => {
+    const levels = [
+      {
+        min: 0,
+        max: 299,
+        level: 'Beginner',
+        next: 'Starter',
+        reward: '10% OFF',
+        nextReward: '10% OFF',
+        color: 'from-slate-500 to-slate-300',
+        accent: 'text-slate-400',
+        border: 'border-slate-400/20',
+        borderColor: 'border-l-slate-400',
+        glow: '',
+        bg: 'bg-slate-500/5'
+      },
+      {
+        min: 300,
+        max: 999,
+        level: 'Starter',
+        next: 'Pro-Elite',
+        reward: '10% OFF',
+        nextReward: 'Creatina STAR',
+        color: 'from-orange-400 to-yellow-300',
+        accent: 'text-orange-400',
+        border: 'border-orange-400/30',
+        borderColor: 'border-l-orange-400',
+        glow: 'shadow-[0_0_20px_rgba(251,146,60,0.25)]',
+        bg: 'bg-orange-500/5'
+      },
+      {
+        min: 1000,
+        max: 1499,
+        level: 'Pro-Elite',
+        next: 'Pro-Elite+',
+        reward: 'Creatina STAR',
+        nextReward: '10% OFF',
+        color: 'from-primary to-lime-300',
+        accent: 'text-primary',
+        border: 'border-primary/30',
+        borderColor: 'border-l-primary',
+        glow: 'shadow-[0_0_20px_rgba(150,255,0,0.25)]',
+        bg: 'bg-primary/5'
+      },
+      {
+        min: 1500,
+        max: 1999,
+        level: 'Pro-Elite+',
+        next: 'Platinum',
+        reward: '10% OFF',
+        nextReward: 'Caja de geles energéticos',
+        color: 'from-lime-400 to-green-500',
+        accent: 'text-lime-400',
+        border: 'border-lime-400/30',
+        borderColor: 'border-l-lime-400',
+        glow: 'shadow-[0_0_20px_rgba(132,204,22,0.35)]',
+        bg: 'bg-lime-500/5'
+      },
+      {
+        min: 2000,
+        max: 2999,
+        level: 'Platinum',
+        next: 'Gold',
+        reward: 'Caja de geles energéticos',
+        nextReward: 'Orden de compra por 15K',
+        color: 'from-fuchsia-500 to-cyan-400',
+        accent: 'text-fuchsia-400',
+        border: 'border-fuchsia-500/40',
+        borderColor: 'border-l-fuchsia-400',
+        glow: 'shadow-[0_0_25px_rgba(217,70,239,0.35)]',
+        bg: 'bg-gradient-to-br from-fuchsia-500/10 to-cyan-400/10'
+      },
+      {
+        min: 3000,
+        max: 3999,
+        level: 'Gold',
+        next: 'Ultra',
+        reward: 'Orden de compra por 15K',
+        nextReward: 'Pre-entreno a elección',
+        color: 'from-amber-400 to-yellow-300',
+        accent: 'text-amber-400',
+        border: 'border-amber-400/30',
+        borderColor: 'border-l-amber-400',
+        glow: 'shadow-[0_0_22px_rgba(251,191,36,0.35)]',
+        bg: 'bg-amber-500/5'
+      },
+      {
+        min: 4000,
+        max: 4999,
+        level: 'Ultra',
+        next: 'Elite',
+        reward: 'Pre-entreno a elección',
+        nextReward: '15% OFF',
+        color: 'from-red-500 to-orange-400',
+        accent: 'text-red-400',
+        border: 'border-red-400/30',
+        borderColor: 'border-l-red-400',
+        glow: 'shadow-[0_0_22px_rgba(248,113,113,0.35)]',
+        bg: 'bg-red-500/5'
+      },
+      {
+        min: 5000,
+        max: 5999,
+        level: 'Elite',
+        next: 'Titanium',
+        reward: '15% OFF',
+        nextReward: 'Caja de Barritas Gentech',
+        color: 'from-pink-500 to-rose-400',
+        accent: 'text-pink-400',
+        border: 'border-pink-400/30',
+        borderColor: 'border-l-pink-400',
+        glow: 'shadow-[0_0_25px_rgba(236,72,153,0.35)]',
+        bg: 'bg-pink-500/5'
+      },
+      {
+        min: 6000,
+        max: 7999,
+        level: 'Titanium',
+        next: 'Diamond',
+        reward: 'Caja de Barritas Gentech',
+        nextReward: 'Orden de compra por 25K',
+        color: 'from-violet-500 to-fuchsia-500',
+        accent: 'text-violet-400',
+        border: 'border-violet-400/30',
+        borderColor: 'border-l-violet-400',
+        glow: 'shadow-[0_0_28px_rgba(168,85,247,0.35)]',
+        bg: 'bg-violet-500/5'
+      },
+      {
+        min: 8000,
+        max: 9999,
+        level: 'Diamond',
+        next: 'Legend',
+        reward: 'Orden de compra por 25K',
+        nextReward: 'Proteína + Creatina',
+        color: 'from-cyan-400 to-blue-500',
+        accent: 'text-cyan-400',
+        border: 'border-cyan-400/30',
+        borderColor: 'border-l-cyan-400',
+        glow: 'shadow-[0_0_30px_rgba(34,211,238,0.35)]',
+        bg: 'bg-cyan-500/5'
+      },
+      {
+        min: 10000,
+        max: Infinity,
+        level: 'Legend',
+        next: 'MAX',
+        reward: 'Proteína + Creatina',
+        nextReward: 'MAX',
+        color: 'from-yellow-300 via-orange-400 to-red-500',
+        accent: 'text-yellow-300',
+        border: 'border-yellow-400/40',
+        borderColor: 'border-l-yellow-400',
+        glow: 'shadow-[0_0_35px_rgba(251,191,36,0.45)]',
+        bg: 'bg-gradient-to-br from-yellow-500/10 to-red-500/10'
+      }
+    ];
+
+    const current = levels.find(
+      (lvl) => points >= lvl.min && points <= lvl.max
+    )!;
+
+    const range = current.max - current.min;
+
+    const progress =
+      current.max === Infinity
+        ? 100
+        : ((points - current.min) / range) * 100;
+
+    return {
+      ...current,
+      progress,
+      pointsToNext:
+        current.max === Infinity ? 0 : current.max - points + 1
+    };
+  };
+
+  const levelData = getUserLevel(userPoints || 0);
+
+  const handleClaimReward = (benefit: any) => {
+    const phone = '5493576654177';
+
+    const message =
+      `Hola! 👋\n` +
+      `Quiero reclamar mi recompensa de LevelPoints.\n\n` +
+      `━━━━━━━━━━━━━━━\n` +
+      `🪪 DNI: ${dniInput}\n` +
+      `🎁 Recompensa: ${benefit.reward}\n` +
+      `🏅 Nivel: ${benefit.tag}\n` +
+      `⭐ Puntos requeridos: ${benefit.points}\n` +
+      `━━━━━━━━━━━━━━━`;
+
+    const url =
+      `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
+
+    window.open(url, '_blank');
+  };
 
   return (
     <div className="min-h-screen bg-transparent text-slate-900 dark:text-white font-sans pb-24 lg:pb-12 transition-colors duration-500 overflow-x-hidden">
@@ -67,44 +265,70 @@ const PointsPage: React.FC = () => {
                   key="result"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-8 relative overflow-hidden h-full flex flex-col justify-between shadow-xl dark:shadow-2xl"
+                  className={`
+                    rounded-2xl p-8 relative overflow-hidden h-full flex flex-col justify-between
+                    border bg-slate-50 dark:bg-zinc-900
+                    ${levelData.border}
+                    ${levelData.glow}
+                    ${levelData.bg}
+                    transition-all duration-500
+                  `}
                 >
-                  <div className="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+                  <div
+                    className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${levelData.color}`}
+                  />
                   <div>
                     <div className="flex items-center gap-2 mb-6">
-                      <Star className="size-5 text-primary fill-current" />
+                      <Star className={`size-5 ${levelData.accent} fill-current`} />
                       <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-slate-400 dark:text-zinc-500">Resumen de Cuenta</span>
                     </div>
                     <div className="space-y-1 mb-10">
                       <p className="text-sm text-slate-500 dark:text-zinc-400">Balance actual</p>
                       <h2 className="text-5xl font-black italic text-slate-900 dark:text-white leading-none">
-                        Tienes <span className="text-primary">{formatNumber(userPoints)}</span> puntos
+                        Tienes <span className={levelData.accent}>{formatNumber(userPoints)}</span> puntos
                       </h2>
                     </div>
-                    {/* <div className="bg-white dark:bg-zinc-800/50 p-6 rounded-xl border-l-4 border-primary mb-8 shadow-sm">
+                    <div className={`bg-white dark:bg-zinc-800/50 p-6 rounded-xl border-l-4 ${levelData.border} mb-8 shadow-sm`}>
                       <p className="text-sm font-bold uppercase tracking-tight text-slate-900 dark:text-white mb-2">¡Casi llegas!</p>
                       <p className="text-slate-500 dark:text-zinc-400 text-sm leading-relaxed">
-                        ¡Te faltan {formatNumber(Math.max(0, 2000 - userPoints))} puntos para tu próximo descuento de 25%!
+                        {levelData.next !== 'MAX' ? (
+                          <>
+                            ¡Te faltan{' '}
+                            {formatNumber(levelData.pointsToNext)} puntos para desbloquear{' '}
+                            <span className={levelData.accent}>
+                              {levelData.nextReward}
+                            </span>
+                            !
+                          </>
+                        ) : (
+                          <>
+                            Ya alcanzaste el nivel máximo.
+                          </>
+                        )}
                       </p>
                       <div className="mt-4 w-full bg-slate-200 dark:bg-zinc-700 h-1.5 rounded-full overflow-hidden">
                         <motion.div 
                           initial={{ width: 0 }}
-                          animate={{ width: `${Math.min(100, (userPoints / 2000) * 100)}%` }}
-                          className="bg-primary h-full shadow-[0_0_8px_#96ff00]"
+                          animate={{ width: `${levelData.progress}%` }}
+                          className={`h-full bg-gradient-to-r ${levelData.color}`}
                         />
                       </div>
-                    </div> */}
+                    </div>
                   </div>
-                  {/* <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white dark:bg-zinc-950 p-4 rounded-lg border border-slate-200 dark:border-zinc-800 text-center shadow-sm">
                       <p className="text-xs text-slate-400 dark:text-zinc-500 uppercase font-bold">Nivel</p>
-                      <p className="text-lg font-black italic text-slate-900 dark:text-white uppercase">Pro-Elite</p>
+                      <p className={`text-lg font-black italic uppercase ${levelData.accent}`}>
+                        {levelData.level}
+                      </p>
                     </div>
                     <div className="bg-white dark:bg-zinc-950 p-4 rounded-lg border border-slate-200 dark:border-zinc-800 text-center shadow-sm">
                       <p className="text-xs text-slate-400 dark:text-zinc-500 uppercase font-bold">Próximo</p>
-                      <p className="text-lg font-black italic text-primary uppercase">Platinum</p>
+                      <p className={`text-lg font-black italic uppercase ${levelData.accent}`}>
+                        {levelData.next}
+                      </p>
                     </div>
-                  </div> */}
+                  </div>
                 </motion.div>
               ) : dniError ? (
                 <motion.div 
@@ -140,56 +364,215 @@ const PointsPage: React.FC = () => {
         <section className="mt-24">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <h3 className="text-2xl font-black italic uppercase tracking-tight text-slate-900 dark:text-white">Listado de beneficios</h3>
-              <p className="text-slate-500 dark:text-zinc-500 text-sm">Canjea tus puntos acumulados por descuentos directos.</p>
+              <h3 className="text-2xl font-black italic uppercase tracking-tight text-slate-900 dark:text-white">
+                Listado de beneficios
+              </h3>
+
+              <p className="text-slate-500 dark:text-zinc-500 text-sm">
+                Desbloquea recompensas exclusivas acumulando puntos.
+              </p>
             </div>
+
             <div className="hidden md:block h-[1px] flex-grow mx-8 bg-slate-200 dark:bg-zinc-800"></div>
           </div>
 
-          {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            Benefit 1
-            <div className="bg-slate-50 dark:bg-zinc-900/40 p-8 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-primary/50 transition-colors group">
-              <div className="flex justify-between items-start mb-12">
-                <Ticket className="size-8 text-slate-400 dark:text-zinc-600 group-hover:text-primary transition-colors" />
-                <span className="text-xs font-bold text-slate-500 dark:text-zinc-500 bg-slate-200 dark:bg-zinc-800 px-3 py-1 rounded-full uppercase">Básico</span>
-              </div>
-              <div className="space-y-2">
-                <p className="text-slate-400 dark:text-zinc-500 text-sm font-bold uppercase tracking-widest">500 puntos</p>
-                <h4 className="text-4xl font-black italic text-slate-900 dark:text-white uppercase leading-none">5% OFF</h4>
-              </div>
-              <button className="mt-8 w-full border border-slate-300 dark:border-zinc-700 text-slate-500 dark:text-zinc-400 py-3 rounded-xl font-bold uppercase text-xs hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors">
-                Desbloqueado
-              </button>
-            </div> */}
+          {(() => {
+            const benefits = [
+              {
+                id: 1,
+                points: 300,
+                reward: '10% OFF',
+                icon: Ticket,
+                tag: 'Starter',
+                color: 'orange',
+              },
+              {
+                id: 2,
+                points: 1000,
+                reward: 'Creatina STAR',
+                icon: Zap,
+                tag: 'Pro-Elite',
+                color: 'lime',
+              },
+              {
+                id: 3,
+                points: 1500,
+                reward: '10% OFF',
+                icon: Star,
+                tag: 'Pro-Elite+',
+                color: 'green',
+              },
+              {
+                id: 4,
+                points: 2000,
+                reward: 'Caja de geles Gentech',
+                icon: Gift,
+                tag: 'Platinum',
+                color: 'fuchsia',
+              },
+              {
+                id: 5,
+                points: 3000,
+                reward: 'Orden de compra 15K',
+                icon: Gift,
+                tag: 'Gold',
+                color: 'amber',
+              },
+              {
+                id: 6,
+                points: 4000,
+                reward: 'Pre-entreno a elección',
+                icon: Zap,
+                tag: 'Ultra',
+                color: 'red',
+              },
+              {
+                id: 7,
+                points: 5000,
+                reward: '15% OFF',
+                icon: Star,
+                tag: 'Elite',
+                color: 'pink',
+              },
+              {
+                id: 8,
+                points: 6000,
+                reward: 'Caja de Barritas',
+                icon: Gift,
+                tag: 'Titanium',
+                color: 'violet',
+              },
+              {
+                id: 9,
+                points: 8000,
+                reward: 'Orden de compra 25K',
+                icon: Gift,
+                tag: 'Diamond',
+                color: 'cyan',
+              },
+              {
+                id: 10,
+                points: 10000,
+                reward: 'Proteína + Creatina',
+                icon: Star,
+                tag: 'Legend',
+                color: 'yellow',
+              },
+            ];
 
-            {/* Benefit 2
-            <div className="bg-slate-50 dark:bg-zinc-900/40 p-8 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-primary/50 transition-colors group">
-              <div className="flex justify-between items-start mb-12">
-                <Zap className="size-8 text-slate-400 dark:text-zinc-600 group-hover:text-primary transition-colors" />
-                <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase">Popular</span>
-              </div>
-              <div className="space-y-2">
-                <p className="text-slate-400 dark:text-zinc-500 text-sm font-bold uppercase tracking-widest">1000 puntos</p>
-                <h4 className="text-4xl font-black italic text-slate-900 dark:text-white uppercase leading-none">10% OFF</h4>
-              </div>
-              <button className="mt-8 w-full border border-primary text-primary py-3 rounded-xl font-bold uppercase text-xs hover:bg-primary hover:text-black transition-all">
-                Canjear ahora
-              </button>
-            </div> */}
+            return (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {benefits.map((benefit, index) => {
+                  const points = userPoints || 0;
 
-            {/* Benefit 3 
-            <div className="bg-slate-100 dark:bg-zinc-950 p-8 rounded-2xl border border-dashed border-slate-300 dark:border-zinc-700 opacity-70">
-              <div className="flex justify-between items-start mb-12">
-                <Lock className="size-8 text-slate-300 dark:text-zinc-700" />
-                <span className="text-xs font-bold text-slate-400 dark:text-zinc-600 bg-slate-200 dark:bg-zinc-900 px-3 py-1 rounded-full uppercase">Premium</span>
+                  const unlocked = points >= benefit.points;
+                  const claimed = (userClaimed || []).includes(benefit.id);
+                  const missing = benefit.points - points;
+
+                  const Icon = benefit.icon;
+
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      viewport={{ once: true }}
+                      className={`
+                        relative overflow-hidden rounded-2xl border p-8 transition-all duration-300
+                        ${unlocked
+                          ? `bg-${benefit.color}-500/5 border-${benefit.color}-400/30 hover:border-${benefit.color}-400/60`
+                          : 'bg-slate-100 dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 opacity-70'
+                        }
+                        ${unlocked ? 'cursor-pointer' : 'cursor-default'}
+                      `}
+                    >
+                      {/* Top bar */}
+                      <div
+                        className={`
+                          absolute top-0 left-0 w-full h-1
+                          ${unlocked
+                            ? `bg-gradient-to-r from-${benefit.color}-400 to-${benefit.color}-600`
+                            : 'bg-slate-300 dark:bg-zinc-700'
+                          }
+                        `}
+                      />
+
+                      {/* Header */}
+                      <div className="flex justify-between items-start mb-12">
+                        <Icon
+                          className={`
+                            size-8 transition-colors
+                            ${unlocked
+                              ? `text-${benefit.color}-400`
+                              : 'text-slate-300 dark:text-zinc-700'
+                            }
+                          `}
+                        />
+
+                        <span
+                          className={`
+                            text-xs font-bold px-3 py-1 rounded-full uppercase
+                            ${unlocked
+                              ? `text-${benefit.color}-300 bg-${benefit.color}-500/10`
+                              : 'text-slate-400 dark:text-zinc-600 bg-slate-200 dark:bg-zinc-900'
+                            }
+                          `}
+                        >
+                          {claimed ? 'Reclamado' : benefit.tag}
+                        </span>
+                      </div>
+
+                      {/* Content */}
+                      <div className="space-y-2">
+                        <p className="text-slate-400 dark:text-zinc-500 text-sm font-bold uppercase tracking-widest">
+                          {formatNumber(benefit.points)} puntos
+                        </p>
+
+                        <h4
+                          className={`
+                            text-3xl font-black italic uppercase leading-none
+                            ${unlocked
+                              ? 'text-slate-900 dark:text-white'
+                              : 'text-slate-300 dark:text-zinc-700'
+                            }
+                          `}
+                        >
+                          {benefit.reward}
+                        </h4>
+                      </div>
+
+                      {/* Footer state */}
+                      {claimed ? (
+                        <button className="mt-8 w-full py-3 rounded-xl font-bold uppercase text-xs bg-green-500 text-black">
+                          Reclamado
+                        </button>
+                      ) : unlocked ? (
+                        <button
+                          onClick={() => handleClaimReward(benefit)}
+                          className={`
+                            mt-8 w-full py-3 rounded-xl font-bold uppercase text-xs border transition-all cursor-pointer
+                            border-${benefit.color}-400/40
+                            text-${benefit.color}-300
+                            hover:bg-${benefit.color}-500
+                            hover:text-black
+                          `}
+                        >
+                          Reclamar
+                        </button>
+                      ) : (
+                        <div className="mt-8 text-center">
+                          <p className="text-xs text-slate-400 dark:text-zinc-600 font-bold uppercase italic">
+                            Faltan {formatNumber(missing)} pts
+                          </p>
+                        </div>
+                      )}
+                    </motion.div>
+                  );
+                })}
               </div>
-              <div className="space-y-2">
-                <p className="text-slate-400 dark:text-zinc-600 text-sm font-bold uppercase tracking-widest">2000 puntos</p>
-                <h4 className="text-4xl font-black italic text-slate-300 dark:text-zinc-600 uppercase leading-none">25% OFF</h4>
-              </div>
-              <p className="mt-8 text-center text-xs text-slate-400 dark:text-zinc-600 font-bold uppercase italic">Faltan 500 pts</p>
-            </div>
-          </div> */}
+            );
+          })()}
         </section>
 
         {/* Map Section */}
