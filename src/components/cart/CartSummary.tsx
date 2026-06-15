@@ -26,10 +26,10 @@ const CartSummary: React.FC<CartSummaryProps> = ({ onCheckout, discount = 0 }) =
             <span>-{formatCurrency(discountAmount)}</span>
           </div>
         )}
-        <div className="flex justify-between text-xs font-bold text-slate-500 uppercase tracking-widest">
+        {/* <div className="flex justify-between text-xs font-bold text-slate-500 uppercase tracking-widest">
           <span>Envío</span>
           <span className="text-emerald-500">Gratis</span>
-        </div>
+        </div> */}
         <div className="pt-4 border-t border-slate-100 dark:border-zinc-800 flex justify-between items-end">
           <span className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Total</span>
           <span className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter">{formatCurrency(finalTotal)}</span>

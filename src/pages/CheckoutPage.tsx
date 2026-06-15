@@ -3,6 +3,7 @@ import { ArrowLeft, Wallet, Landmark, ShoppingBasket, MessageCircle, Lock, Truck
 import { useCart } from '../hooks/useCart';
 import { formatCurrency } from '../utils/helpers';
 import { MOCK_DISCOUNTS } from '../constants';
+import { Link } from 'react-router-dom';
 
 interface CheckoutPageProps {
   setPage: (page: 'catalog' | 'checkout' | 'points') => void;
@@ -28,6 +29,31 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ setPage }) => {
       alert('Cupón inválido');
     }
   };
+
+  if (cart.length === 0) {
+    return (
+      <div className="min-h-screen bg-[#f8f8f5] dark:bg-[#0A0A05] flex items-center justify-center px-6">
+        <div className="max-w-md text-center">
+          <ShoppingBasket className="size-20 mx-auto text-slate-400 mb-6" />
+
+          <h1 className="text-3xl font-bold mb-3">
+            Tu carrito está vacío
+          </h1>
+
+          <p className="text-slate-500 dark:text-slate-400 mb-8">
+            Aún no agregaste productos a tu carrito. Explorá nuestro catálogo y elegí tus favoritos.
+          </p>
+
+          <Link
+              to="/catalogo"
+              className="bg-primary text-black font-bold px-8 py-4 rounded-full hover:scale-105 transition-transform"
+            >
+            Ir al catálogo
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const handleWhatsAppOrder = () => {
     if (!dni || !name || !address) {

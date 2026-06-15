@@ -3,7 +3,8 @@ import React, {
   useContext,
   useState,
   useCallback,
-  useMemo
+  useMemo,
+  useEffect
 } from 'react';
 
 import { Product, CartItem } from '../constants';
@@ -24,12 +25,29 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [toast, setToast] = useState({ message: '', visible: false });
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    try {
+      const savedCart = localStorage.getItem('cart');
 
+      return savedCart
+        ? JSON.parse(savedCart)
+        : [];
+    } catch {
+      return [];
+    }
+  });
+  const [toast, setToast] = useState({ message: '', visible: false });
+  
   const hideToast = useCallback(() => {
     setToast(prev => ({ ...prev, visible: false }));
   }, []);
+
+  // =========================
+  // PERSISTENCIA EN LOCALSTORAGE
+  // =========================
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   // =========================
   // ADD TO CART
