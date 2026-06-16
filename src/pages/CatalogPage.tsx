@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Filter } from 'lucide-react';
 // import { PRODUCTS } from '../constants';
@@ -16,12 +17,15 @@ const PRODUCTS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUIh24E74
 const FLAVORS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUIh24E74W12uWaOLzqbpkRefRsv5b2ePHcIKmlUA-Utp1m7w6vLQ88yTewOX8QM-RRNa66k3UbAJj/pub?gid=1367866808&single=true&output=csv";
 
 const CatalogPage: React.FC<CatalogPageProps> = ({ searchQuery }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { products, loading, error } = useProducts(
     PRODUCTS_URL,
     FLAVORS_URL
   );
 
-  const [imagesReady, setImagesReady] = useState(false);
+  const initialBrand = searchParams.get('productBrand') ?? 'Todas';
+  const initialCategory = searchParams.get('category') ?? 'Todos';
+  const initialSort = (searchParams.get('sort') as SortOption) ?? 'default';
 
   const {
     selectedCategory,
@@ -32,7 +36,50 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ searchQuery }) => {
     setFilterBrand,
     filteredProducts,
     brands
-  } = useFilters(products, searchQuery);
+  } = useFilters(products, searchQuery, {
+    initialBrand,
+    initialCategory,
+    initialSort
+  });
+
+  const handleBrandChange = (brand: string) => {
+    setFilterBrand(brand);
+    const params = new URLSearchParams(searchParams);
+
+    if (brand === 'Todas') {
+      params.delete('productBrand');
+    } else {
+      params.set('productBrand', brand);
+    }
+
+    setSearchParams(params);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    const params = new URLSearchParams(searchParams);
+
+    if (category === 'Todos') {
+      params.delete('category');
+    } else {
+      params.set('category', category);
+    }
+
+    setSearchParams(params);
+  };
+
+  const handleSortChange = (sort: SortOption) => {
+    setSortBy(sort);
+    const params = new URLSearchParams(searchParams);
+
+    if (sort === 'default') {
+      params.delete('sort');
+    } else {
+      params.set('sort', sort);
+    }
+
+    setSearchParams(params);
+  };
 
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [isBrandOpen, setIsBrandOpen] = useState(false);
@@ -46,11 +93,29 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ searchQuery }) => {
 
   const brandOptions = brands.map(b => ({ id: b, label: b }));
 
+  useEffect(() => {
+    const urlBrand = searchParams.get('productBrand') ?? 'Todas';
+    const urlCategory = searchParams.get('category') ?? 'Todos';
+    const urlSort = (searchParams.get('sort') as SortOption) ?? 'default';
+
+    if (urlBrand !== filterBrand) {
+      setFilterBrand(urlBrand);
+    }
+
+    if (urlCategory !== selectedCategory) {
+      setSelectedCategory(urlCategory);
+    }
+
+    if (urlSort !== sortBy) {
+      setSortBy(urlSort);
+    }
+  }, [searchParams, filterBrand, selectedCategory, sortBy]);
+
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       <Sidebar 
         selectedCategory={selectedCategory} 
-        setSelectedCategory={setSelectedCategory} 
+        setSelectedCategory={handleCategoryChange} 
       />
 
       <main className="flex-1 min-w-0 space-y-16">
@@ -71,7 +136,7 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ searchQuery }) => {
               label="MARCA"
               value={filterBrand}
               options={brandOptions}
-              onChange={(id) => setFilterBrand(id)}
+              onChange={handleBrandChange}
               isOpen={isBrandOpen}
               setIsOpen={(open) => {
                 setIsBrandOpen(open);
@@ -83,7 +148,7 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ searchQuery }) => {
               label="ORDENAR"
               value={sortBy}
               options={sortOptions}
-              onChange={(id) => setSortBy(id as SortOption)}
+              onChange={(id) => handleSortChange(id as SortOption)}
               isOpen={isSortOpen}
               setIsOpen={(open) => {
                 setIsSortOpen(open);

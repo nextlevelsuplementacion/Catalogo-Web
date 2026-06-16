@@ -3,10 +3,20 @@ import { Product } from '../constants';
 
 export type SortOption = 'default' | 'price-asc' | 'price-desc' | 'name';
 
-export const useFilters = (products: Product[], initialSearchQuery: string = '') => {
-  const [selectedCategory, setSelectedCategory] = useState('Todos');
-  const [sortBy, setSortBy] = useState<SortOption>('default');
-  const [filterBrand, setFilterBrand] = useState<string>('Todas');
+interface UseFiltersOptions {
+  initialCategory?: string;
+  initialSort?: SortOption;
+  initialBrand?: string;
+}
+
+export const useFilters = (
+  products: Product[],
+  initialSearchQuery: string = '',
+  options: UseFiltersOptions = {}
+) => {
+  const [selectedCategory, setSelectedCategory] = useState(options.initialCategory ?? 'Todos');
+  const [sortBy, setSortBy] = useState<SortOption>(options.initialSort ?? 'default');
+  const [filterBrand, setFilterBrand] = useState<string>(options.initialBrand ?? 'Todas');
 
   const filteredProducts = useMemo(() => {
     let result = products.filter(p => {

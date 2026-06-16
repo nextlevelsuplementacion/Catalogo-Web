@@ -27,25 +27,6 @@ const AppContent: React.FC = () => {
     }
   }, [isDarkMode]);
 
-  <Routes>
-    <Route path="/" element={<Navigate to="/catalogo" replace />} />
-
-    <Route
-      path="/catalogo"
-      element={<CatalogPage searchQuery={searchQuery} />}
-    />
-
-    <Route
-      path="/checkout"
-      element={<CheckoutPage />}
-    />
-
-    <Route
-      path="/puntos"
-      element={<PointsPage />}
-    />
-  </Routes>
-
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a05] text-slate-900 dark:text-slate-100 font-sans selection:bg-primary selection:text-black flex flex-col transition-colors duration-500">
       <Header 
