@@ -32,7 +32,7 @@ const PointsPage: React.FC = () => {
       },
       {
         min: 300,
-        max: 999,
+        max: 1199,
         level: 'Starter',
         next: 'Pro-Elite',
         reward: '10% OFF',
@@ -45,7 +45,7 @@ const PointsPage: React.FC = () => {
         bg: 'bg-orange-500/5'
       },
       {
-        min: 1000,
+        min: 1200,
         max: 1499,
         level: 'Pro-Elite',
         next: 'Pro-Elite+',
@@ -388,7 +388,7 @@ const PointsPage: React.FC = () => {
               },
               {
                 id: 2,
-                points: 1000,
+                points: 1200,
                 reward: 'Creatina STAR',
                 icon: Zap,
                 tag: 'Pro-Elite',

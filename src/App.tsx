@@ -7,6 +7,7 @@ import Footer from './components/layout/Footer';
 import CartDrawer from './components/cart/CartDrawer';
 import Toast from './components/ui/Toast';
 import CatalogPage from './pages/CatalogPage';
+import ProductPage from './pages/ProductPage';
 import CheckoutPage from './pages/CheckoutPage';
 import PointsPage from './pages/PointsPage';
 import { useCart } from './hooks/useCart';
@@ -52,6 +53,20 @@ const AppContent: React.FC = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <CatalogPage searchQuery={searchQuery} />
+                </motion.div>
+              }
+            />
+
+            <Route
+              path="/producto/:id"
+              element={
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ProductPage />
                 </motion.div>
               }
             />

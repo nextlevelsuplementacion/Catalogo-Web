@@ -4,12 +4,14 @@ import {
   Zap,
   Dumbbell,
   Cookie,
+  ChefHat,
   Droplet,
   Flame,
   Activity,
   Sparkles,
   Bolt,
   Atom,
+  CupSoda,
   ChevronDown
 } from 'lucide-react';import { CATEGORIES } from '../../constants';
 
@@ -18,12 +20,14 @@ const ICON_MAP: Record<string, any> = {
   Zap,
   Dumbbell,
   Cookie,
+  ChefHat,
   Droplet,
   Flame,
   Activity,
   Sparkles,
   Bolt,
   Atom,
+  CupSoda,
   ChevronDown
 };
 

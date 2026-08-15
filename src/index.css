@@ -16,4 +16,30 @@
   }
 }
 
+@layer utilities {
+  .bg-surface-container {
+    @apply bg-white dark:bg-zinc-900;
+  }
+
+  .bg-surface-container-high {
+    @apply bg-slate-50 dark:bg-zinc-800/70;
+  }
+
+  .bg-surface-container-highest {
+    @apply bg-slate-100 dark:bg-zinc-800;
+  }
+
+  .border-outline-variant {
+    @apply border-slate-200 dark:border-zinc-800;
+  }
+
+  .text-on-background {
+    @apply text-slate-900 dark:text-slate-100;
+  }
+
+  .text-primary-fixed {
+    @apply text-primary;
+  }
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
